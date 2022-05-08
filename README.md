@@ -13,6 +13,7 @@ The next possible steps:
 1. rewrite to clojurescript  
 2. add style to the popup  
 3. handle edge cases (links are relative and don't contain a host)  
+4. support several chrome instances (windows)
 
 #### Links
 1. [documentation](https://developer.chrome.com/docs/extensions/)
