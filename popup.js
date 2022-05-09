@@ -1,5 +1,8 @@
 window.onload = function() {
-    chrome.tabs.query({'active': true}, function(tabs) {
+    chrome.tabs.query({
+        'active': true,
+        'currentWindow': true
+    }, function(tabs) {
         const tab = tabs[0];
         const page = document.getElementById('url');
         page.append(tab.url);
