@@ -39,6 +39,9 @@ chrome.runtime.onMessage.addListener(
         const protocol = window.location.protocol;
         const host = window.location.protocol + '//' + window.location.hostname + window.location.port;
         const preprocessValue = function(value) {
+            if (value.startsWith("//")) {
+                return protocol + value;
+            }
             if (!value.startsWith(protocol)) {
                 return host + value;
             }
