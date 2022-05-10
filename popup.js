@@ -12,18 +12,20 @@ window.onload = function() {
             {hello: "world"},
             null,
             function(response) {
-                const items = response.items;
-                for (let i = 0; i < items.length; ++i) {
-                    const itemUrl = items[i];
+                if (response) {
+                    const items = response.items;
+                    for (let i = 0; i < items.length; ++i) {
+                        const itemUrl = items[i];
+                        const itemEl = document.createElement("div");
+                        const itemLink = document.createElement("a");
+                        itemLink.setAttribute('href', itemUrl);
+                        itemLink.setAttribute('target', '_blank');
+                        const textNode = document.createTextNode(itemUrl);
+                        itemLink.appendChild(textNode);
+                        itemEl.appendChild(itemLink);
+                        itemsListEl.appendChild(itemEl)
+                    }
 
-                    const itemEl = document.createElement("div");
-                    const itemLink = document.createElement("a");
-                    itemLink.setAttribute('href', itemUrl);
-                    itemLink.setAttribute('target', '_blank');
-                    const textNode = document.createTextNode(itemUrl);
-                    itemLink.appendChild(textNode);
-                    itemEl.appendChild(itemLink);
-                    itemsListEl.appendChild(itemEl)
                 }
             }
         );
