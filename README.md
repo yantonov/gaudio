@@ -11,7 +11,6 @@ This extension allows you to get a direct link to the audio file.
 This is a first draft, created only to check the concept and play with chrome extension api.  
 The next possible steps:  
 1. rewrite to clojurescript  
-2. add style to the popup  
 
 #### Links
 1. [documentation](https://developer.chrome.com/docs/extensions/)

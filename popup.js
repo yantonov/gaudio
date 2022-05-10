@@ -13,8 +13,6 @@ window.onload = function() {
         'currentWindow': true
     }, function(tabs) {
         const tab = tabs[0];
-        const page = document.getElementById('url');
-        page.append(tab.url);
         const itemsListEl = document.getElementById('audio-list');
         chrome.tabs.sendMessage(
             tab.id,
