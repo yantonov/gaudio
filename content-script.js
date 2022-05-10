@@ -54,12 +54,12 @@ chrome.runtime.onMessage.addListener(
         }
         const isMp3 = isAudioLinkWithExtension(".mp3");
         const isM4a = isAudioLinkWithExtension(".m4a");
+        const isOgg = isAudioLinkWithExtension(".ogg");
         const isAudioLink = function(value) {
-            return isMp3(value) || isM4a(value);
+            return isMp3(value) || isM4a(value) || isOgg(value);
         }
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
         audioFiles = unique(audioFiles);
         sendResponse({items: audioFiles})
     }
 );
-

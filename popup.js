@@ -1,3 +1,12 @@
+const extractFileName = function(url) {
+    const regexp = /[^?]+\/([^?\/]+)\??.*/;
+    const match = decodeURI(url).match(regexp);
+    if (match) {
+        return match[1];
+    }
+    return url;
+};
+
 window.onload = function() {
     chrome.tabs.query({
         'active': true,
@@ -20,7 +29,8 @@ window.onload = function() {
                         const itemLink = document.createElement("a");
                         itemLink.setAttribute('href', itemUrl);
                         itemLink.setAttribute('target', '_blank');
-                        const textNode = document.createTextNode(itemUrl);
+                        const fileName = extractFileName(itemUrl);
+                        const textNode = document.createTextNode(fileName);
                         itemLink.appendChild(textNode);
                         itemEl.appendChild(itemLink);
                         itemsListEl.appendChild(itemEl)
