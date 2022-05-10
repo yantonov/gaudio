@@ -1,6 +1,6 @@
 ## Gaudio
 
-Get audio files
+Chrome extension that helps you to extract links to audio files from the web page.
 
 ### Motivation
 Many podcast sites don't provide direct links to the audio files.  
