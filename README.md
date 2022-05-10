@@ -12,7 +12,6 @@ This is a first draft, created only to check the concept and play with chrome ex
 The next possible steps:  
 1. rewrite to clojurescript  
 2. add style to the popup  
-3. add settings about file extensions (predicates can be too much here)  
 
 #### Links
 1. [documentation](https://developer.chrome.com/docs/extensions/)
