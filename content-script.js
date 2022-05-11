@@ -52,11 +52,10 @@ chrome.runtime.onMessage.addListener(
                 return value.endsWith(extension) || value.indexOf(extension + "?") >= 0;
             }
         }
-        const isMp3 = isAudioLinkWithExtension(".mp3");
-        const isM4a = isAudioLinkWithExtension(".m4a");
-        const isOgg = isAudioLinkWithExtension(".ogg");
+        const extensions = ['mp3', 'm4a', 'ogg', 'mp4'];
+        const extensionCheckers = extensions.map(ext => isAudioLinkWithExtension('.' + ext));
         const isAudioLink = function(value) {
-            return isMp3(value) || isM4a(value) || isOgg(value);
+            return extensionCheckers.some(fn => fn(value));
         }
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
         audioFiles = unique(audioFiles);
