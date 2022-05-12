@@ -14,6 +14,22 @@ const search = function(node, foundElements, predicate, preprocessValue) {
     }
 };
 
+const extractFileName = function(url) {
+    const regexp = /[^?]+\/([^?\/]+)\??.*/;
+    const match = decodeURI(url).match(regexp);
+    if (match) {
+        return match[1];
+    }
+    return url;
+};
+
+const toFileDescriptor = function(url) {
+    return {
+        url: url,
+        fileName: extractFileName(url)
+    }
+};
+
 const unique = function(items) {
     if (!items) {
         return [];
@@ -22,8 +38,8 @@ const unique = function(items) {
     let result = []
     for (var i = 0; i < items.length; ++i) {
         let item = items[i];
-        if (!visited[item]) {
-            visited[item] = true;
+        if (!visited[item.fileName]) {
+            visited[item.fileName] = true;
             result.push(item);
         }
     }
@@ -58,7 +74,7 @@ chrome.runtime.onMessage.addListener(
             return extensionCheckers.some(fn => fn(value));
         }
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
-        audioFiles = unique(audioFiles);
+        audioFiles = unique(audioFiles.map(x => toFileDescriptor(x)));
         sendResponse({items: audioFiles})
     }
 );

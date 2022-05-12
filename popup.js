@@ -1,12 +1,3 @@
-const extractFileName = function(url) {
-    const regexp = /[^?]+\/([^?\/]+)\??.*/;
-    const match = decodeURI(url).match(regexp);
-    if (match) {
-        return match[1];
-    }
-    return url;
-};
-
 window.onload = function() {
     chrome.tabs.query({
         'active': true,
@@ -22,12 +13,13 @@ window.onload = function() {
                 if (response) {
                     const items = response.items;
                     for (let i = 0; i < items.length; ++i) {
-                        const itemUrl = items[i];
+                        const item = items[i];
+                        const itemUrl = item.url;
+                        const fileName = item.fileName;
                         const itemEl = document.createElement("div");
                         const itemLink = document.createElement("a");
                         itemLink.setAttribute('href', itemUrl);
                         itemLink.setAttribute('target', '_blank');
-                        const fileName = extractFileName(itemUrl);
                         const textNode = document.createTextNode(fileName);
                         itemLink.appendChild(textNode);
                         itemEl.appendChild(itemLink);
