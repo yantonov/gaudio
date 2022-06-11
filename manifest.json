@@ -1,6 +1,6 @@
 {
-  "name": "Text",
-  "description": "Test description",
+  "name": "Gaudio",
+  "description": "Get audio files",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
