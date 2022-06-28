@@ -47,6 +47,32 @@ const unique = function(items) {
     return result;
 }
 
+const preprocessAttributeValue = function(protocol, host) {
+    return function(value) {
+        if (value.startsWith("//")) {
+            return protocol + value;
+        }
+        if (!value.startsWith(protocol)) {
+            return host + value;
+        }
+        return value;
+    }
+}
+
+const getAudioLinkFilterPredicate = function() {
+    const isAudioLinkWithExtension = function(extension) {
+        return function(value) {
+            return value.endsWith(extension) || value.indexOf(extension + "?") >= 0;
+        }
+    }
+    const extensions = ['mp3', 'm4a', 'ogg', 'mp4'];
+    const extensionCheckers = extensions.map(ext => isAudioLinkWithExtension('.' + ext));
+    const isAudioLink = function(value) {
+        return extensionCheckers.some(fn => fn(value));
+    }
+    return isAudioLink;
+}
+
 
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
@@ -54,25 +80,10 @@ chrome.runtime.onMessage.addListener(
         let audioFiles = [];
         const protocol = window.location.protocol;
         const host = window.location.protocol + '//' + window.location.hostname + window.location.port;
-        const preprocessValue = function(value) {
-            if (value.startsWith("//")) {
-                return protocol + value;
-            }
-            if (!value.startsWith(protocol)) {
-                return host + value;
-            }
-            return value;
-        }
-        const isAudioLinkWithExtension = function(extension) {
-            return function(value) {
-                return value.endsWith(extension) || value.indexOf(extension + "?") >= 0;
-            }
-        }
-        const extensions = ['mp3', 'm4a', 'ogg', 'mp4'];
-        const extensionCheckers = extensions.map(ext => isAudioLinkWithExtension('.' + ext));
-        const isAudioLink = function(value) {
-            return extensionCheckers.some(fn => fn(value));
-        }
+
+        const preprocessValue = preprocessAttributeValue(protocol, host);
+        const isAudioLink = getAudioLinkFilterPredicate()
+
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
         audioFiles = unique(audioFiles.map(x => toFileDescriptor(x)));
         sendResponse({items: audioFiles})
