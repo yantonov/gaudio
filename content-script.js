@@ -73,7 +73,6 @@ const getAudioLinkFilterPredicate = function() {
     return isAudioLink;
 }
 
-
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
         console.log("Message from:" + sender.id);
