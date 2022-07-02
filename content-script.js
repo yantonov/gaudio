@@ -49,6 +49,12 @@ const unique = function(items) {
 
 const preprocessAttributeValue = function(protocol, host) {
     return function(value) {
+        if (value.startsWith("https://")) {
+            return value;
+        }
+        if (value.startsWith("http://")) {
+            return value;
+        }
         if (value.startsWith("//")) {
             return protocol + value;
         }
