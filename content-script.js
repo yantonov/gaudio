@@ -90,6 +90,11 @@ chrome.runtime.onMessage.addListener(
         const isAudioLink = getAudioLinkFilterPredicate()
 
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
+        for (let i = 0; i < window.frames.length; i++) {
+            let frame = window.frames[i];
+            // search(frame.document.documentElement, audioFiles, isAudioLink, preprocessValue);
+        }
+
         audioFiles = unique(audioFiles.map(x => toFileDescriptor(x)));
         sendResponse({items: audioFiles})
     }
