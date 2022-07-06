@@ -4,7 +4,10 @@ const search = function(node, foundElements, predicate, preprocessValue) {
         for(var i = 0; i < attrs.length; ++i) {
             const attrValue = attrs[i].value;
             if (predicate(attrValue + '')) {
-                foundElements.push(preprocessValue(attrValue));
+		let preprocessedElement = preprocessValue(attrValue);
+		if (preprocessedElement != null) {
+                    foundElements.push(preprocessedElement);
+		}
             }
         }
     }
@@ -58,6 +61,10 @@ const preprocessAttributeValue = function(protocol, host) {
         if (value.startsWith("//")) {
             return protocol + value;
         }
+	if (!value.startsWith("/")) {
+	    // just some data attributes, it's neither relative URL nor absolute URL
+	    return null;
+	}
         if (!value.startsWith(host)) {
             return host + value;
         }
