@@ -58,13 +58,16 @@ const preprocessAttributeValue = function(protocol, host) {
         if (value.startsWith("http://")) {
             return value;
         }
+
+	// just some data attributes, it's neither relative URL nor absolute URL
+	if (!value.startsWith("/")) {
+	    return null;
+	}
+	
         if (value.startsWith("//")) {
             return protocol + value;
         }
-	if (!value.startsWith("/")) {
-	    // just some data attributes, it's neither relative URL nor absolute URL
-	    return null;
-	}
+
         if (!value.startsWith(host)) {
             return host + value;
         }
