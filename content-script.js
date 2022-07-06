@@ -65,6 +65,9 @@ const preprocessAttributeValue = function(protocol, host) {
 	}
 	
         if (value.startsWith("//")) {
+	    // really strange case, but here is an example
+	    // url=//open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download/proto/https/vpid/p0cd7c8f.mp3
+	    // example of the page: https://www.bbc.co.uk/programmes/p0cd7h81
             return protocol + value;
         }
 
