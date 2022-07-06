@@ -58,7 +58,7 @@ const preprocessAttributeValue = function(protocol, host) {
         if (value.startsWith("//")) {
             return protocol + value;
         }
-        if (!value.startsWith(protocol)) {
+        if (!value.startsWith(host)) {
             return host + value;
         }
         return value;
