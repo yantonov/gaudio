@@ -106,7 +106,13 @@ chrome.runtime.onMessage.addListener(
         for (let i = 0; i < window.frames.length; i++) {
             let frame = window.frames[i];
 	    // TODO: solve CORS problem for https://datacrunchcorp.com/education-and-ai/
-            // search(frame.document.documentElement, audioFiles, isAudioLink, preprocessValue);
+	    // https://quillette.com/2022/07/06/james-kirchick-on-secret-city-the-hidden-history-of-gay-washington/
+	    try {
+		search(frame.document.documentElement, audioFiles, isAudioLink, preprocessValue);
+	    }
+	    catch (error) {
+		console.log(error);
+	    }
         }
 
         audioFiles = unique(audioFiles.map(x => toFileDescriptor(x)));
