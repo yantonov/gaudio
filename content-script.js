@@ -4,10 +4,10 @@ const search = function(node, foundElements, predicate, preprocessValue) {
         for(var i = 0; i < attrs.length; ++i) {
             const attrValue = attrs[i].value;
             if (predicate(attrValue + '')) {
-		let preprocessedElement = preprocessValue(attrValue);
-		if (preprocessedElement != null) {
+                let preprocessedElement = preprocessValue(attrValue);
+                if (preprocessedElement != null) {
                     foundElements.push(preprocessedElement);
-		}
+                }
             }
         }
     }
@@ -59,15 +59,15 @@ const preprocessAttributeValue = function(protocol, host) {
             return value;
         }
 
-	// just some data attributes, it's neither relative URL nor absolute URL
-	if (!value.startsWith("/")) {
-	    return null;
-	}
-	
+        // just some data attributes, it's neither relative URL nor absolute URL
+        if (!value.startsWith("/")) {
+            return null;
+        }
+
         if (value.startsWith("//")) {
-	    // really strange case, but here is an example
-	    // url=//open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download/proto/https/vpid/p0cd7c8f.mp3
-	    // example of the page: https://www.bbc.co.uk/programmes/p0cd7h81
+            // really strange case, but here is an example
+            // url=//open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download/proto/https/vpid/p0cd7c8f.mp3
+            // example of the page: https://www.bbc.co.uk/programmes/p0cd7h81
             return protocol + value;
         }
 
@@ -105,14 +105,14 @@ chrome.runtime.onMessage.addListener(
         search(document.documentElement, audioFiles, isAudioLink, preprocessValue);
         for (let i = 0; i < window.frames.length; i++) {
             let frame = window.frames[i];
-	    // TODO: solve CORS problem for https://datacrunchcorp.com/education-and-ai/
-	    // https://quillette.com/2022/07/06/james-kirchick-on-secret-city-the-hidden-history-of-gay-washington/
-	    try {
-		search(frame.document.documentElement, audioFiles, isAudioLink, preprocessValue);
-	    }
-	    catch (error) {
-		console.log(error);
-	    }
+            // TODO: solve CORS problem for https://datacrunchcorp.com/education-and-ai/
+            // https://quillette.com/2022/07/06/james-kirchick-on-secret-city-the-hidden-history-of-gay-washington/
+            try {
+                search(frame.document.documentElement, audioFiles, isAudioLink, preprocessValue);
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
 
         audioFiles = unique(audioFiles.map(x => toFileDescriptor(x)));
