@@ -1,4 +1,4 @@
-const createLink = function(item) {
+const createLink = (item) => {
     const itemUrl = item.url;
     const fileName = item.fileName;
     const itemEl = document.createElement("div");
@@ -11,18 +11,19 @@ const createLink = function(item) {
     return itemEl;
 }
 
-window.onload = function() {
+window.onload = () => {
     chrome.tabs.query({
         'active': true,
         'currentWindow': true
     }, function(tabs) {
         const tab = tabs[0];
         const itemsListEl = document.getElementById('audio-list');
+
         chrome.tabs.sendMessage(
             tab.id,
             {hello: "world"},
             null,
-            function(response) {
+            (response) => {
                 if (response) {
                     const items = response.items;
                     for (let i = 0; i < items.length; ++i) {

@@ -1,4 +1,4 @@
-const search = function(node, foundElements, predicate, preprocessValue) {
+const search = (node, foundElements, predicate, preprocessValue) => {
     if (node.hasAttributes()) {
         var attrs = node.attributes;
         for(var i = 0; i < attrs.length; ++i) {
@@ -17,7 +17,7 @@ const search = function(node, foundElements, predicate, preprocessValue) {
     }
 };
 
-const extractFileName = function(url) {
+const extractFileName = (url) => {
     const regexp = /[^?]+\/([^?\/]+)\??.*/;
     const match = decodeURI(url).match(regexp);
     if (match) {
@@ -26,14 +26,14 @@ const extractFileName = function(url) {
     return url;
 };
 
-const toFileDescriptor = function(url) {
+const toFileDescriptor = (url) => {
     return {
         url: url,
         fileName: extractFileName(url)
     }
 };
 
-const unique = function(items) {
+const unique = (items) => {
     if (!items) {
         return [];
     }
@@ -50,8 +50,8 @@ const unique = function(items) {
     return result;
 }
 
-const preprocessAttributeValue = function(protocol, host) {
-    return function(value) {
+const preprocessAttributeValue = (protocol, host) => {
+    return (value) => {
         if (value.startsWith("https://")) {
             return value;
         }
@@ -78,23 +78,22 @@ const preprocessAttributeValue = function(protocol, host) {
     }
 }
 
-const getAudioLinkFilterPredicate = function() {
-    const isAudioLinkWithExtension = function(extension) {
-        return function(value) {
+const getAudioLinkFilterPredicate = () => {
+    const isAudioLinkWithExtension = (extension) => {
+        return (value) => {
             return value.endsWith(extension) || value.indexOf(extension + "?") >= 0;
         }
     }
     const extensions = ['mp3', 'm4a', 'ogg', 'mp4'];
     const extensionCheckers = extensions.map(ext => isAudioLinkWithExtension('.' + ext));
-    const isAudioLink = function(value) {
+    const isAudioLink = (value) => {
         return extensionCheckers.some(fn => fn(value));
     }
     return isAudioLink;
 }
 
 chrome.runtime.onMessage.addListener(
-    function(message, sender, sendResponse) {
-        console.log("Message from:" + sender.id);
+    (message, sender, sendResponse) => {
         let audioFiles = [];
         const protocol = window.location.protocol;
         const host = window.location.protocol + '//' + window.location.hostname + window.location.port;
