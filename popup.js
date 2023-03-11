@@ -24,12 +24,11 @@ window.onload = () => {
             {hello: "world"},
             null,
             (response) => {
-                if (response) {
+                if (response && response.items) {
                     const items = response.items;
-                    for (let i = 0; i < items.length; ++i) {
-                        const item = items[i];
+                    response.items.forEach(item => {
                         itemsListEl.appendChild(createLink(item));
-                    }
+                    });
                 }
             }
         );
